@@ -13,13 +13,13 @@ defmodule Remodel.Formatter.ListFormatter do
     do: Enum.map(resources, fn(resource) -> format_resources(resource, serializer, options) end)
 
   defp format_resources(resource, serializer, options) do
-    Enum.map serializer.__attributes(), fn(attr) ->
+    Enum.map(serializer.__attributes(), fn(attr) ->
       if !attr.if || apply(serializer, attr.if, [resource, options[:scope]]) do
         apply(serializer, attr.attribute, [resource, options[:scope]])
       else
         nil
       end
-    end
+    end)
   end
 
   defp format_header(serializer),
