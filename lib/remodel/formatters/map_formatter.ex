@@ -11,7 +11,7 @@ defmodule Remodel.Formatter.MapFormatter do
   end
 
   defp format_resource(resource, serializer, options) when is_map(resource) do
-    Enum.reduce(serializer.__attributes, %{}, fn(attr, results) ->
+    Enum.reduce(serializer.__attributes(), %{}, fn(attr, results) ->
       if !attr.if || evaluate_conditional(resource, serializer, options, attr) do
         Map.put(results, attr.as || attr.attribute, apply(serializer, attr.attribute, [resource, options[:scope]]))
       else
